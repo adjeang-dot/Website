@@ -1,6 +1,6 @@
 // Konfigurasi Klien Supabase
 const SUPABASE_URL = 'https://mznqtwyaxhmolempmyvo.supabase.co';
-const SUPABASE_ANON_KEY = 'MASUKKAN_ANON_KEY_ANDA_DI_SINI'; // Ganti dengan anon key Supabase Anda
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNjYWJ5eGN2Z2xpbmJlZmd5ZGVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODk0NTIsImV4cCI6MjEwODg2NTQ1Mn0.PPQzCkitv7sPgvcVX-GR6ABq3po4YKZkA0WQ8RhucvA';
 
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
