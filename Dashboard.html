@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GnB</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- CDN Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>GnB Dashboard</h1>
+            <button id="logout-btn" class="btn-logout">Keluar</button>
+        </header>
+
+        <main class="dashboard-content">
+            <div class="welcome-card">
+                <h2>Selamat Datang, <span id="user-name">Pengguna</span>!</h2>
+                <p>Anda berhasil masuk ke dalam sistem GnB.</p>
+                <div class="user-info">
+                    <p><strong>Email:</strong> <span id="user-email">-</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Skrip Pengamanan & Sesi Dashboard -->
+    <script>
+        const SUPABASE_URL = 'https://mznqtwyaxhmolempmyvo.supabase.co';
+        const SUPABASE_ANON_KEY = 'MASUKKAN_ANON_KEY_ANDA_DI_SINI'; // Ganti dengan anon key Anda
+        const { createClient } = supabase;
+        const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Cek sesi aktif di Supabase
+            const { data: { session }, error } = await sb.auth.getSession();
+
+            if (!session) {
+                // Jika tidak ada sesi aktif, lempar kembali ke halaman login (index.html)
+                alert('Silakan masuk terlebih dahulu.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Tampilkan informasi pengguna
+            const user = session.user;
+            const fullName = user.user_metadata?.full_name || 'Pengguna GnB';
+            
+            document.getElementById('user-name').textContent = fullName;
+            document.getElementById('user-email').textContent = user.email;
+
+            // Tombol Logout
+            const logoutBtn = document.getElementById('logout-btn');
+            logoutBtn.addEventListener('click', async () => {
+                const { error } = await sb.auth.signOut();
+                if (error) {
+                    alert('Gagal keluar: ' + error.message);
+                } else {
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
